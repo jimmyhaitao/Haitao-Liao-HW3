@@ -32,7 +32,8 @@
 #              [3, 6, 9]]
 # 
 def matrix_transpose(A):
-    pass
+	return(list(map(list,list(zip(*A)))))
+
 
 
 
@@ -58,7 +59,14 @@ def matrix_transpose(A):
 #             -100
 # 
 def max_2d_array(grid):
-    pass
+
+	result = []
+
+	for el in grid:
+		for sub in el:
+			result.append(sub)
+
+	return(max(result))
 
 
 
@@ -86,8 +94,12 @@ def max_2d_array(grid):
 #         Output:
 #             None
 # 
+from bisect import bisect_left
 def binary_search(arr, target):
-    pass
+	i = bisect_left(arr, target)
+	if i != len(arr) and arr[i] == target:
+		return i
+	return None
 
 
 
@@ -121,9 +133,19 @@ def binary_search(arr, target):
 #         Output:
 #             None
 # 
-def search_2d_array(arr, target):
-    pass
+# val = target
+# return [[index, row.index(val)] for index, row in enumerate(arr) if val in row
+# x = [x for x in arr if target in x][0]
+# return [arr.index(x),x.index(target)]
 
+def search_2d_array(arr, target):
+    for row, i in enumerate(arr):
+        try:
+            column = i.index(target)
+        except ValueError:
+            continue
+        return [row, column]
+    return None
 
 
 # Maximum Sum Subarray
@@ -146,7 +168,11 @@ def search_2d_array(arr, target):
 #             6
 # 
 def max_sum_subarray(arr):
-    pass
+    ending = current = arr[0]
+    for x in arr[1:]:
+        ending = max(x, ending + x)
+        current = max(current, ending)
+    return current
 
 
 
@@ -206,4 +232,15 @@ def max_sum_subrectangle(grid):
 #             0
 # 
 def max_array_flatten(arr):
-    pass
+	level = []
+	for item in arr:
+		if isinstance(item, list):
+			level.append(max_array_flatten(item))
+	if len(level) > 0:
+		return 1 + max(level)
+	return 0
+
+    # if isinstance(arr, list):
+    #     return 1 + max(depth(elem) for elem in arr)
+    # else:
+    #     return 0
